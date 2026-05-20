@@ -287,17 +287,21 @@ app.get("/", (req, res) => {
 });
 
 // Health check endpoint — shows DB connection status
-app.get("/api/health", (req, res) => {
-  const mongoose = require("mongoose");
-  const states = ["disconnected", "connected", "connecting", "disconnecting"];
-  const dbState = states[mongoose.connection.readyState] || "unknown";
-  res.json({
-    status: "ok",
-    db: dbState,
-    env: {
-      mongoUri: process.env.MONGO_URI ? "SET" : "NOT SET",
-    }
-  });
+app.get("/api/health", async (req, res) => {
+  try {
+    const mongoose = (await import("mongoose")).default;
+    const states = ["disconnected", "connected", "connecting", "disconnecting"];
+    const dbState = states[mongoose.connection.readyState] || "unknown";
+    res.json({
+      status: "ok",
+      db: dbState,
+      env: {
+        mongoUri: process.env.MONGO_URI ? "SET" : "NOT SET",
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Health check failed" });
+  }
 });
 
 // Start Server
