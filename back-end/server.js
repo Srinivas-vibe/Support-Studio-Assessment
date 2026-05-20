@@ -27,9 +27,7 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB
 connectDB();
 
-// Middleware
-app.use(cors({ origin: "https://supportstudio.vercel.app", credentials: true }));
-
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 // --- GET API ENDPOINTS ---
