@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./db.js";
@@ -287,9 +288,8 @@ app.get("/", (req, res) => {
 });
 
 // Health check endpoint — shows DB connection status
-app.get("/api/health", async (req, res) => {
+app.get("/api/health", (req, res) => {
   try {
-    const mongoose = (await import("mongoose")).default;
     const states = ["disconnected", "connected", "connecting", "disconnecting"];
     const dbState = states[mongoose.connection.readyState] || "unknown";
     res.json({
@@ -300,7 +300,7 @@ app.get("/api/health", async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ error: "Health check failed" });
+    res.status(500).json({ error: "Health check failed: " + error.message });
   }
 });
 
