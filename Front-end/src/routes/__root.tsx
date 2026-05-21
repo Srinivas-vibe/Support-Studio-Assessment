@@ -111,7 +111,8 @@ function VisitTracker() {
     // Avoid logging admin actions as general visitor traffic
     if (pathname.startsWith("/admin")) return;
 
-    fetch("http://localhost:5000/api/analytics/visit", {
+    const apiUrl = import.meta.env.VITE_API_URL || "https://support-studio-assessment.onrender.com";
+    fetch(`${apiUrl}/api/analytics/visit`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

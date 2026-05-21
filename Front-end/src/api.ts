@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://support-studio-assessment.onrender.com";
 
 export async function fetchBenefits() {
   const res = await fetch(`${BASE_URL}/api/benefits`);
